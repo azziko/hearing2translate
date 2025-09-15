@@ -29,7 +29,7 @@ def generate_csfleurs():
     (dataset_path / "audio").mkdir(parents=True, exist_ok=True)
 
     #TODO: Add the paths from huggingface cache. Should change it so that it is multiplatform
-    cmd = r"huggingface-cli scan-cache | grep byan/cs-fleurs | awk -F '[ ]{2,}' '{print $6}'"
+    cmd = r"huggingface-cli scan-cache | grep byan/cs-fleurs | awk -F ' ' '{print $NF}'"
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True).stdout.rstrip()
     hf_data_folder=subprocess.run(f"echo {result}/snapshots/$(cat {result}/refs/main)", shell=True, capture_output=True, text=True).stdout.rstrip()
     print(hf_data_folder)
@@ -65,7 +65,7 @@ def generate_csfleurs():
                             src_ref=sample["text"],
                             tgt_ref=dataset_fleurs[ids - min_id]["raw_transcription"], #1600
                             src_lang= src,
-                            ref_lang= tgt,
+                            tgt_lang= tgt,
                             benchmark_metadata={"cs_lang" : [src,tgt], "context" : "short", "dataset_type" : DatasetType.CODESWITCH }
                         ))
                         )
