@@ -13,10 +13,11 @@ import io
 import zipfile
 import shutil
 import tarfile
+import collections
 
 dir_root = os.environ.get("H2T_DATADIR", ".")
 dir_tmp = tempfile.mkdtemp()
-os.makedirs(f"{dir_root}/wmt24/audio/", exist_ok=True)
+os.makedirs(f"{dir_root}/wmt/audio/", exist_ok=True)
 
 print("Downloading WMT24 audio, this might take a while...")
 zipfile.ZipFile(
@@ -24,9 +25,9 @@ zipfile.ZipFile(
         "https://data.statmt.org/wmt24/general-mt/wmt24_GeneralMT-audio.zip").content
     )).extractall(dir_tmp)
 
+dataset_out = collections.defaultdict(list)
 print("Processing WMT24...")
-for langs in ["en-de", "en-es", "en-zh"]:
-    dataset_out = []
+for langs in ["en-de", "en-es", "en-zh", "en-cs", "en-hi", "en-is", "en-ja", "en-ru", "en-uk"]:
     lang1, lang2 = langs.split("-")
     url = f"https://raw.githubusercontent.com/wmt-conference/wmt24-news-systems/refs/heads/main/xml/wmttest2024.{langs}.all.xml"
     response = requests.get(url)
@@ -47,25 +48,19 @@ for langs in ["en-de", "en-es", "en-zh"]:
         # copy, even override
         fname_new = shutil.copyfile(
             f"{dir_tmp}/WMT24_GeneralMT_audio/test-en-speech-audio/{doc_id.removeprefix('test-en-speech_')}.wav",
-            f"{dir_root}/audio/{doc_id.removeprefix('test-en-speech_')}.wav"
+            f"{dir_root}/wmt/audio/{doc_id.removeprefix('test-en-speech_')}.wav"
         )
 
-        dataset_out.append({
+        dataset_out[langs].append({
             "dataset_id": "wmt24",
-            "sample_id": len(dataset_out),
-            "src_audio": fname_new,
+            "sample_id": len(dataset_out[langs]),
+            "src_audio": fname_new.removeprefix(dir_root+"/"),
             "src_ref": text_src,
             "tgt_ref": text_ref,
             "src_lang": lang1,
             "ref_lang": lang2,
             "benchmark_metadata": {"doc_id": doc_id, "dataset_type": "longform"},
         })
-
-    with open(f"{dir_root}/{langs}.jsonl", "w") as f:
-        f.write("\n".join(
-            json.dumps(record, ensure_ascii=False)
-            for record in dataset_out
-        ) + "\n")
 
 
 # pip install ffmpeg-python
@@ -86,29 +81,26 @@ with open(f"{dir_tmp}/data/TMP_Sep08-wmt25-genmt-humeval.jsonl", "r") as f:
     data = [line for line in data if "_#_speech_#_" in line["doc_id"]]
 
 print("Processing WMT25...")
-for langs in ["en-zh_CN"]:
+for langs in ["en-zh_CN", "en-uk_UA", "en-ru_RU", "en-ko_KO", "en-ja_JP", "en-is_IS", "en-et_EE", "en-cs_CZ", "en-bho_IN", "en-ar_EG"]:
     data_local = [x for x in data if x["doc_id"].startswith(langs + "_#_")]
     langs = langs.split("_")[0]
     lang1, lang2 = langs.split("-")
-    dataset_out = []
 
     for line in data_local:
-        # https://vilda.net/t/wmt25/assets/cs/speech/vid_fYgtFNa0Ffc.mp4
-
-        mp4_file = f'{dir_tmp}/tmp_video.mp4'
-        wav_file = f"{dir_root}/audio/{line['doc_id'].split('_#_')[2]}.wav"
-
-        r = requests.get(f"https://vilda.net/t/wmt25/assets/en/speech/{line['doc_id'].split('_#_')[2]}.mp4")
-        with open(mp4_file, 'wb') as f:
-            f.write(r.content)
+        wav_file = f"{dir_root}/wmt/audio/{line['doc_id'].split('_#_')[2]}.wav"
 
         # convert MP4 to WAV using ffmpeg-python
-        ffmpeg.input(mp4_file).output(wav_file, vn=None).run()
+        if not os.path.exists(wav_file):
+            mp4_file = f'{dir_tmp}/tmp_video.mp4'
+            r = requests.get(f"https://vilda.net/t/wmt25/assets/en/speech/{line['doc_id'].split('_#_')[2]}.mp4")
+            with open(mp4_file, 'wb') as f:
+                f.write(r.content)
+            ffmpeg.input(mp4_file).output(wav_file, vn=None).run()
 
-        dataset_out.append({
+        dataset_out[langs].append({
             "dataset_id": "wmt25",
-            "sample_id": len(dataset_out),
-            "src_audio": None,
+            "sample_id": len(dataset_out[langs]),
+            "src_audio": wav_file.removeprefix(dir_root+"/"),
             "src_ref": line["src_text"],
             "tgt_ref": line["tgt_text"]["refA"],
             "src_lang": lang1,
@@ -116,9 +108,10 @@ for langs in ["en-zh_CN"]:
             "benchmark_metadata": {"doc_id": line["doc_id"], "dataset_type": "longform"},
         })
 
-    # append!
-    with open(f"{dir_root}/{langs}.jsonl", "a") as f:
+
+for langs, dataset in dataset_out.items():
+    with open(f"manifests/wmt/{langs}.jsonl", "w") as f:
         f.write("\n".join(
             json.dumps(record, ensure_ascii=False)
-            for record in dataset_out
+            for record in dataset
         ) + "\n")

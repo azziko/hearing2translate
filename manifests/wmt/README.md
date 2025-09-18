@@ -41,7 +41,7 @@ The WMT24 and WMT25 are primarily text-only datasets but include a `speech` doma
 and
 
 ```bibtex
-TODO
+WIP
 ```
 
 
@@ -49,12 +49,24 @@ TODO
 
 
 The script `generate.py` will build the jsonl files for the following language pairs (the dataset has more languages but this is the intersection with hearing2translate):
-- en-es
-- en-de
-- en-zh
+
+- en-es (Spanish, WMT24 & WMT25)
+- en-de (German, WMT24)
+- en-zh (Chinese, WMT24 & WMT25)
+- en-cs (Czech, WMT24 & WMT25)
+- en-is (Icelandic, WMT24 & WMT25)
+- en-hi (Hindi, WMT24) ⚠️ quality of reference translations is unconfirmed
+- en-ja (Japanese, WMT24 & WMT25)
+- en-ru (Russian, WMT24 & WMT25)
+- en-uk (Ukrainian, WMT24 & WMT25)
+- en-ko (Korean, WMT25)
+- en-et (Estonian, WMT25)
+- en-bho (Bhojpuri, WMT25)
+- en-sr (Serbian Cyrillic, WMT25) ⚠️ the script is Cyrillic and not Latin
+- en-ar (Arabic Egyptian, WMT25) ⚠️ this is different from modern standard arabic
 
 ```bash
-H2T_DATADIR="manifests/wmt" python3 manifests/wmt/generate.py
+H2T_DATADIR="manifests/" python3 manifests/wmt/generate.py
 ```
 
 For the WMT25 part, the videos need to be converted from MP4 to wav, which necessitates local ffmpeg installation and `pip install ffmpeg-python`.
@@ -62,16 +74,13 @@ After running the steps above, your directory layout will be:
 
 ```
 ${H2T_DATADIR}/
-└─ audio/
+└─ wmt/audio/
     ├─ 392RoIzR2Fs_001.wav
     ├─ Fhach-AU5Ko_020.wav
     └─ ...
-├─ en-es.jsonl
-├─ en-de.jsonl
-└─ en-zh.jsonl
 ```
 
-If your generate.py script writes manifests, you should get JSONL files (one per language pair) under your chosen output path (e.g., `manifests/wmt/wmt24` and `manifests/wmt/wmt25`). The JSONL entry looks like:
+If your generate.py script writes manifests, you should get JSONL files (one per language pair) in this directory. The JSONL entry looks like:
 
 ```json
 {
@@ -84,6 +93,23 @@ If your generate.py script writes manifests, you should get JSONL files (one per
     "ref_lang": "es",
     "benchmark_metadata": {"context": null, "doc_id": "test-en-speech_-_31PoDRu28_001", "dataset_type": "video"}
 }
+```
+
+The WMT24 and WMT25 are merged in the JSONL files, though can be filtered with the `dataset_id` values.
+```
+$ wc -l manifests/wmt/*.jsonl
+ 62 manifests/wmt/en-ar.jsonl
+ 62 manifests/wmt/en-bho.jsonl
+173 manifests/wmt/en-cs.jsonl
+111 manifests/wmt/en-de.jsonl
+111 manifests/wmt/en-es.jsonl
+ 62 manifests/wmt/en-et.jsonl
+111 manifests/wmt/en-hi.jsonl
+173 manifests/wmt/en-is.jsonl
+173 manifests/wmt/en-ja.jsonl
+173 manifests/wmt/en-ru.jsonl
+173 manifests/wmt/en-uk.jsonl
+173 manifests/wmt/en-zh.jsonl
 ```
 
 ## Licence
