@@ -1,9 +1,3 @@
-"""
-H2T_DATADIR="manifests/wmt" python3 manifests/wmt/generate.py
-"""
-
-# WMT24
-
 import json
 import xml.etree.ElementTree as ElementTree
 import requests
@@ -14,11 +8,14 @@ import zipfile
 import shutil
 import tarfile
 import collections
+# pip install ffmpeg-python
+import ffmpeg
 
 dir_root = os.environ.get("H2T_DATADIR", ".")
 dir_tmp = tempfile.mkdtemp()
 os.makedirs(f"{dir_root}/wmt/audio/", exist_ok=True)
 
+# WMT24
 print("Downloading WMT24 audio, this might take a while...")
 zipfile.ZipFile(
     io.BytesIO(requests.get(
@@ -40,10 +37,13 @@ for langs in ["en-de", "en-es", "en-zh", "en-cs", "en-hi", "en-is", "en-ja", "en
             if x.attrib.get("type") == "clean_source" and x.tag == "supplemental"
         ][0]
         # we might have two references but one is enough
-        text_ref = [
-            x[0][0].text for x in node
+        text_ref = {
+            x.attrib["translator"]: x[0][0].text for x in node
             if x.attrib.get("lang") == lang2 and x.tag == "ref"
-        ][0]
+        }
+        # if it's just one reference, make it a string
+        if len(text_ref) == 1:
+            text_ref = list(text_ref.values())[0]
 
         # copy, even override
         fname_new = shutil.copyfile(
@@ -62,9 +62,6 @@ for langs in ["en-de", "en-es", "en-zh", "en-cs", "en-hi", "en-is", "en-ja", "en
             "benchmark_metadata": {"doc_id": doc_id, "dataset_type": "longform"},
         })
 
-
-# pip install ffmpeg-python
-import ffmpeg
 
 # WMT25
 print("Downloading WMT25 data...")
