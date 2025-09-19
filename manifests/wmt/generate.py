@@ -24,7 +24,7 @@ zipfile.ZipFile(
 
 dataset_out = collections.defaultdict(list)
 print("Processing WMT24...")
-for langs in ["en-de", "en-es", "en-zh", "en-cs", "en-hi", "en-is", "en-ja", "en-ru", "en-uk"]:
+for langs in ["en-de", "en-es", "en-zh"]:
     lang1, lang2 = langs.split("-")
     url = f"https://raw.githubusercontent.com/wmt-conference/wmt24-news-systems/refs/heads/main/xml/wmttest2024.{langs}.all.xml"
     response = requests.get(url)
@@ -64,9 +64,14 @@ for langs in ["en-de", "en-es", "en-zh", "en-cs", "en-hi", "en-is", "en-ja", "en
 
 
 # WMT25
-print("Downloading WMT25 data...")
-print("WARNING: using temporary location which will change in October 2025")
+print("Downloading WMT25 assets, this might take a while...")
+zipfile.ZipFile(
+    io.BytesIO(requests.get(
+        "https://data.statmt.org/wmt25/general-mt/wmt25_genmt_assets.zip").content
+    )).extractall(dir_tmp)
 
+
+print("WARNING: using temporary location which will change in October 2025")
 with open(f"{dir_tmp}/TMP_Sep08-wmt25-genmt-humeval.jsonl.gz", 'wb') as f:
     f.write(requests.get("https://vilda.net/t/wmt25/TMP_Sep08-wmt25-genmt-humeval.jsonl.gz").content)
 
@@ -78,7 +83,7 @@ with open(f"{dir_tmp}/data/TMP_Sep08-wmt25-genmt-humeval.jsonl", "r") as f:
     data = [line for line in data if "_#_speech_#_" in line["doc_id"]]
 
 print("Processing WMT25...")
-for langs in ["en-zh_CN", "en-uk_UA", "en-ru_RU", "en-ko_KO", "en-ja_JP", "en-is_IS", "en-et_EE", "en-cs_CZ", "en-bho_IN", "en-ar_EG"]:
+for langs in ["en-zh_CN", "en-de_DE", "en-it_IT"]:
     data_local = [x for x in data if x["doc_id"].startswith(langs + "_#_")]
     langs = langs.split("_")[0]
     lang1, lang2 = langs.split("-")
@@ -88,10 +93,7 @@ for langs in ["en-zh_CN", "en-uk_UA", "en-ru_RU", "en-ko_KO", "en-ja_JP", "en-is
 
         # convert MP4 to WAV using ffmpeg-python
         if not os.path.exists(wav_file):
-            mp4_file = f'{dir_tmp}/tmp_video.mp4'
-            r = requests.get(f"https://vilda.net/t/wmt25/assets/en/speech/{line['doc_id'].split('_#_')[2]}.mp4")
-            with open(mp4_file, 'wb') as f:
-                f.write(r.content)
+            mp4_file = f"{dir_tmp}/assets/en/speech/{line['doc_id'].split('_#_')[2]}.mp4"
             ffmpeg.input(mp4_file).output(wav_file, vn=None).run()
 
         dataset_out[langs].append({
@@ -99,7 +101,7 @@ for langs in ["en-zh_CN", "en-uk_UA", "en-ru_RU", "en-ko_KO", "en-ja_JP", "en-is
             "sample_id": len(dataset_out[langs]),
             "src_audio": "/" + wav_file.removeprefix(dir_root+"/"),
             "src_ref": line["src_text"],
-            "tgt_ref": line["tgt_text"]["refA"],
+            "tgt_ref": line["tgt_text"]["refA"] if "refA" in line["tgt_text"] else None,
             "src_lang": lang1,
             "ref_lang": lang2,
             "benchmark_metadata": {"doc_id": line["doc_id"]},

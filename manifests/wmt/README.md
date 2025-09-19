@@ -51,19 +51,9 @@ WIP
 The script `generate.py` will build the jsonl files for the following language pairs (the dataset has more languages but this is the intersection with hearing2translate):
 
 - en-es (Spanish, WMT24 & WMT25)
-- en-de (German, WMT24)
+- en-de (German, WMT24 & WMT25)
 - en-zh (Chinese, WMT24 & WMT25)
-- en-cs (Czech, WMT24 & WMT25)
-- en-is (Icelandic, WMT24 & WMT25)
-- en-hi (Hindi, WMT24) ⚠️ quality of reference translations is unconfirmed
-- en-ja (Japanese, WMT24 & WMT25)
-- en-ru (Russian, WMT24 & WMT25)
-- en-uk (Ukrainian, WMT24 & WMT25)
-- en-ko (Korean, WMT25)
-- en-et (Estonian, WMT25)
-- en-bho (Bhojpuri, WMT25)
-- en-sr (Serbian Cyrillic, WMT25) ⚠️ the script is Cyrillic and not Latin
-- en-ar (Arabic Egyptian, WMT25) ⚠️ this is different from modern standard arabic
+- en-it (Italian, WMT25)
 
 ```bash
 H2T_DATADIR="manifests/" python3 manifests/wmt/generate.py
@@ -98,18 +88,10 @@ If your generate.py script writes manifests, you should get JSONL files (one per
 The WMT24 and WMT25 are merged in the JSONL files, though can be filtered with the `dataset_id` values.
 ```
 $ wc -l manifests/wmt/*.jsonl
- 62 manifests/wmt/en-ar.jsonl
- 62 manifests/wmt/en-bho.jsonl
-173 manifests/wmt/en-cs.jsonl
-111 manifests/wmt/en-de.jsonl
-111 manifests/wmt/en-es.jsonl
- 62 manifests/wmt/en-et.jsonl
-111 manifests/wmt/en-hi.jsonl
-173 manifests/wmt/en-is.jsonl
-173 manifests/wmt/en-ja.jsonl
-173 manifests/wmt/en-ru.jsonl
-173 manifests/wmt/en-uk.jsonl
-173 manifests/wmt/en-zh.jsonl
+   173 manifests/wmt/en-de.jsonl
+   111 manifests/wmt/en-es.jsonl
+    62 manifests/wmt/en-it.jsonl
+   173 manifests/wmt/en-zh.jsonl
 ```
 
 ## Licence
