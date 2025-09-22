@@ -58,7 +58,7 @@ for langs in ["en-de", "en-es", "en-zh"]:
             "src_ref": text_src,
             "tgt_ref": text_ref,
             "src_lang": lang1,
-            "ref_lang": lang2,
+            "tgt_lang": lang2,
             "benchmark_metadata": {"doc_id": doc_id, "context": "short"},
         })
 
@@ -73,7 +73,7 @@ for langs in ["en-it", "en-fr", "en-pt", "en-nl"]:
             "src_ref": line["src_ref"],
             "tgt_ref": None,
             "src_lang": "en",
-            "ref_lang": lang2,
+            "tgt_lang": lang2,
             "benchmark_metadata": line["benchmark_metadata"],
         })
 
@@ -117,7 +117,7 @@ for langs in ["en-zh_CN", "en-de_DE", "en-it_IT"]:
             "src_ref": line["src_text"],
             "tgt_ref": line["tgt_text"]["refA"] if "refA" in line["tgt_text"] else None,
             "src_lang": lang1,
-            "ref_lang": lang2,
+            "tgt_lang": lang2,
             "benchmark_metadata": {"doc_id": line["doc_id"], "context": "short"},
         })
 
@@ -133,7 +133,7 @@ for langs in ["en-es", "en-fr", "en-pt", "en-nl"]:
             "src_ref": line["src_ref"],
             "tgt_ref": None,
             "src_lang": "en",
-            "ref_lang": lang2,
+            "tgt_lang": lang2,
             "benchmark_metadata": line["benchmark_metadata"],
         })
 
