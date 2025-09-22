@@ -59,7 +59,7 @@ for langs in ["en-de", "en-es", "en-zh"]:
             "tgt_ref": text_ref,
             "src_lang": lang1,
             "ref_lang": lang2,
-            "benchmark_metadata": {"doc_id": doc_id},
+            "benchmark_metadata": {"doc_id": doc_id, "context": "short"},
         })
 
 # mock other languages on WMT24 without references
@@ -118,7 +118,7 @@ for langs in ["en-zh_CN", "en-de_DE", "en-it_IT"]:
             "tgt_ref": line["tgt_text"]["refA"] if "refA" in line["tgt_text"] else None,
             "src_lang": lang1,
             "ref_lang": lang2,
-            "benchmark_metadata": {"doc_id": line["doc_id"]},
+            "benchmark_metadata": {"doc_id": line["doc_id"], "context": "short"},
         })
 
 # mock other languages on WMT25 without references
