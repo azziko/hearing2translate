@@ -16,7 +16,7 @@ def main():
 
     for tgt_lang in tgt_langs:
         mappings = open_file(id_mapping) # [{iid, long_path, short_path: [...]}}
-        item_group = open_file(os.path.join(root, f"grouped-{tgt_lang}.jsonl")) # [{'audio_path': [...], 'transcript': [...], 'reference': [...]}]
+        item_group = open_file(os.path.join(root, f"grouped-{tgt_lang}.jsonl")) # [{'audio_path': [...], 'transcript': [...], 'reference': [...]}] Hid by .gitignore
 
         # short_path -> item idx
         short_to_item = {}
