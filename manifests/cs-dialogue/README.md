@@ -1,0 +1,99 @@
+# CS-Dialogue
+
+## Overview
+
+**CS-Dialogue** is a dataset of spontaneous Mandarin–English code-switching speech. It contains **104 hours** of audio from **200 speakers**, recorded across **100 dialogues** with a total of **38,917 utterances**.
+
+The recordings cover **7 topics**: personal, entertainment, technology, education, job, philosophy, and sports. The dataset is divided into **train**, **development**, and **test** splits.
+
+All speakers are native Chinese and fluent in English, with diverse age and regional backgrounds.
+
+```bibtex
+@article{zhou2025cs,
+  title={CS-Dialogue: A 104-Hour Dataset of Spontaneous Mandarin-English Code-Switching Dialogues for Speech Recognition},
+  author={Zhou, Jiaming and Guo, Yujie and Zhao, Shiwan and Sun, Haoqin and Wang, Hui and He, Jiabei and Kong, Aobo and Wang, Shiyao and Yang, Xi and Wang, Yequan and others},
+  journal={arXiv preprint arXiv:2502.18913},
+  year={2025}
+}
+```
+
+## Instructions
+
+1. Install dependencies:
+
+  ```bash
+  pip install -r requirements.txt
+  ```
+2. Define the path where **CS-Dialogue** will be stored:
+
+  ```bash
+  export H2T_DATADIR=""
+  ```
+3. Run the script to download and prepare the dataset:
+
+  ```bash
+  python generate.py
+  ```
+> Note: Extracting .tar files may take some time.
+> The script prepares manifests for all target languages without reference translations.
+
+## Expected Outputs
+
+After running the above steps, your directory should look like:
+
+```
+${H2T_DATADIR}/
+└─ cs-dialogue/
+    ├── index
+    │   └── short_wav
+    │       ├── dev
+    │       │   └── ...
+    │       ├── test
+    │       │   ├── text
+    │       │   └── wav.scp
+    │       └── train
+    │           └── ...
+    └── short_wav
+        ├── SCRIPT
+        │   ├── ZH-CN_U0001_S0.txt
+        │   ├── ZH-CN_U0002_S0.txt
+        │   └── ...
+        └── WAVE
+            └── C0
+                ├── ZH-CN_U0001_S0
+                │   ├── ZH-CN_U0001_S0_101.wav
+                │   ├── ZH-CN_U0001_S0_103.wav
+                │   ├── ZH-CN_U0001_S0_105.wav
+                │   └── ...
+                ├── ZH-CN_U0002_S0
+                │   └── ...
+                └── ...
+```
+
+Manifests will be generated under your chosen output path (e.g., `./manifests/cs-dialogue/`).
+
+Each entry in the JSONL manifest looks like:
+
+
+```json
+{
+  "dataset_id": "cs-dialogue",
+  "sample_id": "<dialogue_id>_<utterance_idx>",
+  "src_audio": "/cs-dialogue/short_wav/WAVE/C0/<dialogue_id>/<dialogue_id>_<utterance_idx>.wav",
+  "src_ref": "<source raw_transcription>",
+  "tgt_ref": null,
+  "src_lang": null,
+  "tgt_lang": "<two-letter ISO 639-1>",
+  "benchmark_metadata": {
+    "cs_lang": ["en", "zh"],
+    "context": "short",
+    "dataset_type": "code_switch"
+  }
+}
+
+```
+
+
+## License
+
+**CS-Dialogue** is released under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 License (CC BY-NC-SA 4.0)**.
