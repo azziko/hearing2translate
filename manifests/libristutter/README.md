@@ -39,14 +39,12 @@ After running the steps above, your directory layout will be:
 ${H2T_DATADIR}/
 └─ libristutter/
    └─ audio/
-     º│  ├─6000-55211-0004.flac
-      │  ├─ 2518-154825-0004.flac
-      │  └─ ...
-      └─ de/
-      │  ├─ 4018-107312-0003.flac
-      │  ├─ 625-132118-0031.flac
-      │  └─ ...
+      ├─6000-55211-0004.flac
+      ├─ 2518-154825-0004.flac
+      ├─ 4018-107312-0003.flac
+      ├─ 625-132118-0031.flac
       └─ ...
+      
 ```
 
 If your generate.py script writes manifests, you should get a  JSONL file  under your chosen output path (e.g., ./manifests/Libristutter/). A jsonl entry looks like:
