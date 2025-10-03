@@ -39,26 +39,26 @@ After running the steps above, your directory layout will be:
 ${H2T_DATADIR}/
 └─ libristutter/
    └─ audio/
-      ├─6000-55211-0004.flac
-      ├─ 2518-154825-0004.flac
-      ├─ 4018-107312-0003.flac
-      ├─ 625-132118-0031.flac
-      └─ ...
+      └─ en/
+        ├─6000-55211-0004.flac
+        ├─ 2518-154825-0004.flac
+        ├─ 4018-107312-0003.flac
+        ├─ 625-132118-0031.flac
+        └─ ...
       
 ```
 
-If your generate.py script writes manifests, you should get a  JSONL file  under your chosen output path (e.g., ./manifests/Libristutter/). A jsonl entry looks like:
-
+If your generate.py script writes manifests, you should get JSONL files (one per language pair) under your chosen output path (e.g., ./manifests/libristutter/). A jsonl entry looks like:
 
 ```json
 {
-  "dataset_id": "fleurs",
+  "dataset_id": "libristutter",
   "sample_id": "<string>",
-  "src_audio": "/fleurs/audio/<src_lang>/<audio file>",
+  "src_audio": "/libristutter/audio/en/<audio file>",
   "src_ref": "<source raw_transcription>",
-  "tgt_ref": "<target raw_transcription>",
+  "tgt_ref": "null",
   "src_lang": "en",
-  "tgt_lang": "en",
+  "tgt_lang": "<two-letter ISO 639-1 >",
   "benchmark_metadata": {"has_stutter":"True|False", "stutter_pos":[]}
 }
 ```
