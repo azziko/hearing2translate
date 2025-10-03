@@ -52,12 +52,13 @@ def process_libristutter_dataset():
                 sample_id = sample['name']
  
                 # Define the audio file path
-                audio_filename = sample['audio']['path'].split('/')[-1] #f"{sample_id}.wav"
+                audio_filename = sample['audio']['path'].split('/')[-1].replace('.flac','.wav') #f"{sample_id}.wav"
                 audio_filepath = os.path.join(audio_output_dir, audio_filename)
-                relative_audio_path = os.path.join("libristutter", "audio", audio_filename)
+                relative_audio_path = os.path.join("libristutter", "audio","en", audio_filename)
 
                 # Save the audio file only if it doesn't already exist
                 if not os.path.exists(audio_filepath):
+                    
                     sf.write(
                         audio_filepath,
                         sample["audio"]["array"],
