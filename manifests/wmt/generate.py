@@ -108,7 +108,7 @@ for langs in ["en-zh_CN", "en-de_DE", "en-it_IT"]:
         # convert MP4 to WAV using ffmpeg-python
         if not os.path.exists(wav_file):
             mp4_file = f"{dir_tmp}/assets/en/speech/{line['doc_id'].split('_#_')[2]}.mp4"
-            ffmpeg.input(mp4_file).output(wav_file, vn=None).run()
+            ffmpeg.input(mp4_file).output(wav_file, vn=None, ac=1).run()
 
         dataset_out[langs].append({
             "dataset_id": "wmt25",
