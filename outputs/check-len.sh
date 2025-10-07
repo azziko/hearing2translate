@@ -22,7 +22,9 @@
 datasets=$(find -name \*jsonl | sed -r 's@/@ @g' | cut -f 3 -d' ' | sort -u)
 #datasets="acl6060-long acl6060-short commonAccent fleurs winoST"
 #datasets="commonAccent fleurs"
-datasets="mandi mcif-long mcif-short covost2"
+#datasets="mandi mcif-long mcif-short covost2"
+#datasets="cs_fleurs"
+datasets="wmt"
 echo $datasets
 
 my_models="{canary-v2,canary-v2_asr,seamlessm4t,seamlessm4t_asr,whisper,whisper_asr}"
