@@ -51,7 +51,7 @@ def generate(model_tokenizer_config, model_input):
         generation = model.generate(
             **inputs, 
             max_new_tokens=4096,
-            do_sample=False
+            generation_config=generation_config
         )
         generation = generation[0][input_len:]
     

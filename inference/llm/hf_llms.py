@@ -48,9 +48,7 @@ def generate(model_tokenizer_config, model_input):
             generation = model.generate(
                 inputs,
                 max_new_tokens=4096,
-                do_sample=False,
-                pad_token_id=tokenizer.eos_token_id,
-                eos_token_id=tokenizer.eos_token_id,
+                generation_config=generation_config,
             )
             generation = generation[0][input_len:]
         
@@ -62,9 +60,7 @@ def generate(model_tokenizer_config, model_input):
     generate_ids = model.generate(
         **inputs,
         max_new_tokens=4096,
-        do_sample=False,
-        pad_token_id=tokenizer.eos_token_id,
-        eos_token_id=tokenizer.eos_token_id,
+        generation_config=generation_config,
     )
     
     generate_ids = generate_ids[:, inputs["input_ids"].shape[1]:]
