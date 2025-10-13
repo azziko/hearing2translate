@@ -49,7 +49,7 @@ echo "==================================================" | tee -a "$LOG_FILE"
 echo "" | tee -a "$LOG_FILE"
 
 # Define sources and models
-SOURCES=('canary-v2' 'seamlessm4t' 'whisper')
+SOURCES=('canary-v2' 'seamlessm4t' 'whisper', 'owsm4.0-ctc')
 MODELS=('CohereLabs/aya-expanse-32b' 'google/gemma-3-12b-it' 'Unbabel/Tower-Plus-9B')
 MODEL_NAMES=('aya' 'gemma' 'tower')
 
@@ -169,4 +169,3 @@ if [ $failed_tasks -gt 0 ]; then
 fi
 
 echo "Log saved to: $LOG_FILE"
-
