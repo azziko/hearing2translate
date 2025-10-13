@@ -36,6 +36,7 @@ LANGAUGE_PREDICTOR= {
     "fr": lambda: SpacyPredictor("fr"),
     "it": lambda: SpacyPredictor("it"),
     "de": lambda: GenderedArticlePredictor("de", get_german_determiners, GERMAN_EXCEPTION),
+    "pt": lambda: SpacyPredictor("pt")
 }
 
 def get_src_indices(instance: List[str]) -> List[int]:
@@ -269,8 +270,8 @@ if __name__ == "__main__":
     TGT_LANG = MAPPING_TO_LINGUA_LABEL[lang]
     off_targets = [ 1 if lang != TGT_LANG else 0 for lang in predicted_langs]
 
-    # set to ignore those genders predicted when there was an off-target translation
-    gender_predictions = [i if off_target != 1 else GENDER.ignore for i, off_target in zip(gender_predictions, off_targets)]
+    # set to unknown those genders predicted when there was an off-target translation
+    gender_predictions = [i if off_target != 1 else GENDER.unknown for i, off_target in zip(gender_predictions, off_targets)]
 
     orig_genders = list(map(itemgetter(0), ds))
     tgt_prof = list(map(itemgetter(3), ds))

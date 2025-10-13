@@ -30,6 +30,9 @@ ES_DETERMINERS = {"el": GENDER.male, "la": GENDER.female, "un": GENDER.male, "un
 IT_DETERMINERS = {"il": GENDER.male, "lo": GENDER.male, "i": GENDER.male, "gli": GENDER.male, "uno": GENDER.male,
                   "la": GENDER.female, "le": GENDER.female, "una": GENDER.female}
 
+PT_DETERMINERS = { "o": GENDER.male, "os": GENDER.male, "a": GENDER.female, "as": GENDER.female, 
+                   "um": GENDER.male, "uns": GENDER.male, "uma": GENDER.female, "umas": GENDER.female}
+
 class StanzaPredictor:
 
     def __init__(self, lang: str):
@@ -61,7 +64,10 @@ class StanzaPredictor:
                 if word.lower() in IT_DETERMINERS.keys():
                     return IT_DETERMINERS[word.lower()]
 
-            
+        if self.lang=="pt":
+            for word in words:
+                if word.lower() in PT_DETERMINERS.keys():
+                    return PT_DETERMINERS[word.lower()]
 
 
     def get_gender(self, profession: str, tgt_inds, translated_sent, entity_index, ds_entry) -> GENDER:

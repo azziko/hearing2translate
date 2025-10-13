@@ -1,1 +1,1 @@
-{"lang": "it", "trans_fn": "owsm4.0-ctc_en_pro", "acc": 51.6, "f1_male": 71.7, "f1_female": 28.2, "del_g": 44, "unk_male": 55, "unk_female": 224, "unk_neutral": 0}
+{"lang": "it", "trans_fn": "owsm4.0-ctc_en_pro", "acc": 50.4, "f1_male": 71.0, "f1_female": 27.7, "del_g": 43, "unk_male": 72, "unk_female": 244, "unk_neutral": 0}

@@ -1,1 +1,1 @@
-{"lang": "es", "trans_fn": "phi4multimodal_en_anti", "acc": 58.3, "f1_male": 72.0, "f1_female": 19.1, "del_g": 53, "unk_male": 1, "unk_female": 0, "unk_neutral": 0}
+{"lang": "es", "trans_fn": "phi4multimodal_en_anti", "acc": 12.8, "f1_male": 33.9, "f1_female": 4.2, "del_g": 30, "unk_male": 582, "unk_female": 655, "unk_neutral": 0}

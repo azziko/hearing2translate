@@ -29,8 +29,8 @@ class SpacyPredictor:
         Init spacy for the specified language code.
         """
         self.stanza_predictor = StanzaPredictor(lang)
-        lang_map = {"de": "de_core_news_sm", "fr": "fr_core_news_sm", "es":"es_core_news_sm", "it":"it_core_news_sm"}
-        assert lang in ["es", "fr", "it", "de"]
+        lang_map = {"de": "de_core_news_sm", "fr": "fr_core_news_sm", "es":"es_core_news_sm", "it":"it_core_news_sm", "pt": "pt_core_news_sm"}
+        assert lang in ["es", "fr", "it", "de", "pt"]
         self.lang =  lang_map[lang]
         self.cache = {}    # Store calculated professions genders
         self.nlp = spacy.load(self.lang, disable = ["parser", "ner"])
