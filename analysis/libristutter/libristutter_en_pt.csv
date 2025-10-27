@@ -1,0 +1,10 @@
+direction,system,XCOMET-QE,QEMetricX_24,LinguaPy,QEMetricX_24-Strict-linguapy,XCOMET-QE-Strict-linguapy
+en_pt,canary-v2,0.5812,8.4211,0.6329,8.4375,0.5802
+en_pt,desta2-8b,0.5423,8.9255,0.6329,9.0158,0.5394
+en_pt,gemma_canary-v2,0.5717,7.947,0.0,7.947,0.5717
+en_pt,gemma_whisper,0.6555,6.961,0.211,6.9756,0.6552
+en_pt,owsm4.0-ctc,0.255,18.3559,0.8439,18.4393,0.251
+en_pt,phi4multimodal,0.4596,11.6412,7.384,12.6937,0.419
+en_pt,qwen2audio-7b,0.4911,10.6436,5.0633,11.3465,0.4703
+en_pt,seamlessm4t,0.3547,16.3933,8.6498,16.835,0.33
+en_pt,voxtral-small-24b,0.6853,6.4241,0.6329,6.4737,0.6836
