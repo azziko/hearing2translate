@@ -16,6 +16,8 @@ seamless_lang_codes = {
     "zh": "cmn",
     "zh-cn": "cmn",
     "nl": "nld",
+    "ru": "rus",
+    "cs": "ces",
 }
 
 def generate(model, sample):
