@@ -1,0 +1,13 @@
+INFO:root:Loading model whisper
+INFO:root:Setting transformers seed to 42 for reproducibility.
+/lnet/aic/personal/feysab/NPFL101/hearing2translate/venv/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+INFO:numexpr.utils:Note: NumExpr detected 32 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 16.
+INFO:numexpr.utils:NumExpr defaulting to 16 threads.
+Device set to use cpu
+INFO:root:Continuing from outputs/whisper/covost2/uk-en.jsonl, skipping 1501 already processed inputs.
+Generating Outputs:   0%|          | 0/986 [00:00<?, ?it/s]Using `chunk_length_s` is very experimental with seq2seq models. The results will not necessarily be entirely accurate and will have caveats. More information: https://github.com/huggingface/transformers/pull/20104. Ignore this warning with pipeline(..., ignore_warning=True). To use Whisper for long-form transcription, use rather the model's `generate` method directly as the model relies on it's own chunking mechanism (cf. Whisper original paper, section 3.8. Long-form Transcription).
+/lnet/aic/personal/feysab/NPFL101/hearing2translate/venv/lib/python3.10/site-packages/transformers/models/whisper/generation_whisper.py:604: FutureWarning: The input name `inputs` is deprecated. Please make sure to use `input_features` instead.
+  warnings.warn(
+Token-level timestamps may not be reliable for task 'translate'.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
