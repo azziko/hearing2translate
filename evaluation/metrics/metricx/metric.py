@@ -5,6 +5,7 @@ from .models import MT5ForRegression
 from datasets import Dataset
 from transformers import AutoTokenizer
 import logging
+from typing import List
 
 class BaseMetricX():
     def __init__(self, tokenizer: str, model: str, **kwargs) -> None:
@@ -22,7 +23,7 @@ class BaseMetricX():
 
     @staticmethod
     def make_samples(
-        sources: list[str], hypotheses: list[str], references: list[str] = None
+        sources: List[str], hypotheses: List[str], references: List[str] = None
     ):
         pass
 
@@ -31,7 +32,7 @@ class BaseMetricX():
         pass
 
     def evaluate(
-        self, sources: list, hypotheses: list, references: list
+        self, sources: List, hypotheses: List, references: List
     ):
         """
         Evaluate function receives the hypotheses and the references and returns a COMETResult object.
@@ -75,8 +76,8 @@ class BaseMetricX():
             tokens["attention_mask"] = tokens["attention_mask"][:, :-1]
 
             # move tokens to cuda device
-            tokens["input_ids"] = tokens["input_ids"].to("cuda")
-            tokens["attention_mask"] = tokens["attention_mask"].to("cuda")
+            tokens["input_ids"] = tokens["input_ids"].to("cpu")
+            tokens["attention_mask"] = tokens["attention_mask"].to("cpu")
 
             with torch.no_grad():
                 outputs = self.model(**tokens)
@@ -102,7 +103,7 @@ class RefMetricX(BaseMetricX):
 
     @staticmethod
     def make_samples(
-        hypotheses: list[str], references: list[str], sources: list[str] = None
+        hypotheses: List[str], references: List[str], sources: List[str] = None
     ):
         return [
             {"hypothesis": h, "reference": r} for h, r in zip(hypotheses, references)
@@ -126,7 +127,7 @@ class RefMetricX_24(BaseMetricX):
 
     @staticmethod
     def make_samples(
-        hypotheses: list[str], references: list[str], sources: list[str] = None
+        hypotheses: List[str], references: List[str], sources: List[str] = None
     ):
         return [
             {"hypothesis": h, "reference": r, "source": s}
@@ -151,7 +152,7 @@ class QEMetricX(BaseMetricX):
 
     @staticmethod
     def make_samples(
-        sources: list[str], hypotheses: list[str], references: list[str] = None
+        sources: List[str], hypotheses: List[str], references: List[str] = None
     ):
         return [{"hypothesis": h, "source": s} for h, s in zip(hypotheses, sources)]
 
@@ -170,7 +171,7 @@ class QEMetricX_24(BaseMetricX):
 
     @staticmethod
     def make_samples(
-        sources: list[str], hypotheses: list[str], references: list[str] = None
+        sources: List[str], hypotheses: List[str], references: List[str] = None
     ):
         return [{"hypothesis": h, "source": s} for h, s in zip(hypotheses, sources)]
 

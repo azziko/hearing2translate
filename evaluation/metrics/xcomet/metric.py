@@ -1,6 +1,7 @@
 # Code adapted from Tower: An Open Multilingual Large Language Model for Translation-Related Tasks 
 # (Duarte M. Alves et al., 2024) available at https://github.com/deep-spin/tower-eval/tree/main
 from comet import download_model, load_from_checkpoint
+from typing import List
 
 class XCOMET():
     def __init__(self, model: str):
@@ -14,14 +15,14 @@ class XCOMET():
 
 
     def make_samples(
-        self, sources: list[str], hypotheses: list[str], references: list[str]
+        self, sources: List[str], hypotheses: List[str], references: List[str]
     ):
         samples = {"src": sources, "mt": hypotheses, "ref": references}
         samples = [dict(zip(samples, t)) for t in zip(*samples.values())]
         return samples
 
     def evaluate(
-        self, hypotheses: list, references: list, sources: list, batch_size
+        self, hypotheses: List, references: List, sources: List, batch_size
     ):
         """
         Evaluate function receives the hypotheses and the references and returns a COMETResult object.
@@ -53,7 +54,7 @@ class XCOMET_QE(XCOMET):
     def __init__(self, model):
         super().__init__(model=model)
 
-    def make_samples(self, sources: list[str], hypotheses: list[str], references: list[str]):
+    def make_samples(self, sources: List[str], hypotheses: List[str], references: List[str]):
 
         samples = {"src": sources, "mt": hypotheses}
         samples = [dict(zip(samples, t)) for t in zip(*samples.values())]
